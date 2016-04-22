@@ -1,0 +1,55 @@
+SELECT 
+	week.name,
+	an.animal_name,
+	(SELECT 
+		  A_T.typename
+		FROM 
+		  animal_types AS A_T
+		WHERE an.animal_type=A_T.id_type),
+	w_s.first_name,
+	w_s.second_name,
+	(SELECT 
+		  R.rangname
+		FROM 
+		  rangs AS R
+		WHERE w_s.rang_id = R.id_rang),
+  FROM
+	day_of_week AS week,
+	animals AS an,
+	workers AS w_s,
+	feeding,
+	menu
+  WHERE 
+	(feeding.menu_id = menu.id_menu) AND (feeding.worker_id = w_s.id_w) 
+	AND (feeding.dow_id = week.id_number)
+
+--select
+SELECT 
+	an.id_a AS ID,
+	an.animal_name,
+
+	(SELECT
+		a_t.typename
+	  FROM 
+		animal_types AS a_t
+	  WHERE 
+		an.animal_type = a_t.id_type) AS 'Vud',
+	
+	(SELECT 
+		food.foodname
+	  FROM
+		food
+	  WHERE 
+		(food.id_food = menu.food_id) ) AS Food
+	
+	
+  FROM
+	animals AS an LEFT JOIN menu
+    ON an.id_a = menu.animal_id
+    ORDER BY ID ASC;
+  
+  
+  
+  
+
+  
